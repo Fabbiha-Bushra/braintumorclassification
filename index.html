@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Brain Tumor Classification</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3a6ea5;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --light-gray: #f0f2f5;
+            --dark-gray: #495057;
+            --border-color: #dee2e6;
+            --highlight: #f8f4e5;
+            --success: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.7rem 2rem;
+            background-color: rgba(44, 62, 80, 0.95);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            font-family: 'Merriweather', serif;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #fff;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Picture15.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-top: 1rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-header h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .team-member h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .image-container {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .image-caption {
+            font-style: italic;
+            color: var(--dark-gray);
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .metrics-table th, .metrics-table td {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .metrics-table th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .metrics-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        .metrics-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .key-takeaway {
+            background-color: var(--highlight);
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .literature-review {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .paper {
+            background-color: var(--light-gray);
+            padding: 1.5rem 2rem;
+            border-left: 5px solid var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .paper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .paper h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .paper p {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .future-work {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .work-block {
+            background-color: #eef6ff;
+            padding: 1.5rem 2rem;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .work-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .work-block h3 {
+            margin-bottom: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        .work-block p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .ethics-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .ethics-block {
+            background-color: #fef9e7;
+            padding: 1.5rem 2rem;
+            border-left: 5px solid #f4b400;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .ethics-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .ethics-block h3 {
+            margin-bottom: 0.75rem;
+            color: #a87400;
+        }
+
+        .ethics-block p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .team-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .team-card p {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .team-card a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .acknowledgment, .institution, .contribution {
+            margin-top: 2.5rem;
+            background-color: #fff8e1;
+            padding: 1.5rem 2rem;
+            border-left: 5px solid #ffc107;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .acknowledgment:hover, .institution:hover, .contribution:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .acknowledgment h3, .institution h3, .contribution h3 {
+            color: #a87400;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 2.5rem auto;
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.2);
+        }
+
+        .contact-form button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1rem;
+            display: block;
+            width: 100%;
+        }
+
+        .contact-form button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            background-color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            section {
+                padding: 2.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            .navbar ul.show {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                right: 2rem;
+                top: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 2rem;
+            }
+            
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            h3 {
+                font-size: 1.4rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">Brain Tumor Classification</div>
+            <button class="mobile-menu-btn">☰</button>
+            <ul id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#literature">Literature</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>AI-Powered Brain Tumor Classification</h1>
+            <p>Advancing medical diagnostics through deep learning models for accurate and efficient brain tumor detection and classification from MRI scans.</p>
+            <a href="#overview" class="hero-btn">Learn More</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="overview">
+            <div class="section-header">
+                <h2>Project Overview</h2>
+            </div>
+            <p>This project explores the use of advanced deep learning models to automatically classify brain tumors from MRI scans. It compares Convolutional Neural Networks (VGG16, ResNet50, InceptionV3) and Vision Transformers (FastViT, ViT-B/32) across four tumor types: Glioma, Meningioma, Pituitary Tumor, and No Tumor.</p>
+            
+            <p>Using MRI data from BraTS and TCGA-GBM datasets, each model was evaluated on key metrics like Accuracy, F1-Score, and AUC. The standout performer was a hybrid model that combines deep feature extraction with a Support Vector Machine (SVM), achieving an impressive 97% accuracy.</p>
+            
+            <p>To enhance trust and interpretability, GradCAM visualizations were used to highlight the MRI regions most responsible for each prediction, helping make AI decisions more transparent.</p>
+            
+            <p>This work demonstrates the potential of deep learning in clinical diagnostics and paves the way for more reliable, AI-assisted healthcare solutions.</p>
+        </section>
+
+        <section id="about">
+            <div class="section-header">
+                <h2>About The Project</h2>
+            </div>
+            <p>Brain tumors are among the most life-threatening conditions, and timely, accurate diagnosis is essential for effective treatment. Traditionally, MRI scans are manually interpreted by radiologists—a process that can be time-consuming and prone to human error. This project explores the use of deep learning for automated brain tumor classification, comparing two powerful approaches: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs).</p>
+            
+            <p>While CNNs excel at extracting spatial features, they often miss long-range dependencies. ViTs, on the other hand, capture global image relationships through self-attention but typically require large datasets, which are scarce in medical imaging. This study directly compares these models using real MRI data to understand their strengths, limitations, and clinical potential.</p>
+            
+            <p>The models aim to classify brain tumors into four categories: Glioma, Meningioma, Pituitary Tumor, and No Tumor, and are evaluated based on accuracy, robustness, and computational efficiency. GradCAM is used to visualize which regions of the MRI influenced predictions, improving transparency.</p>
+            
+            <p>The study introduces a hybrid model—deep feature extraction + SVM—which outperforms standalone models in accuracy. Despite challenges like limited dataset diversity and computational demands for ViTs, this research marks a significant step toward real-world, AI-powered diagnostic tools in healthcare.</p>
+        </section>
+
+        <section id="methodology">
+            <div class="section-header">
+                <h2>Methodology</h2>
+            </div>
+            <p>This project follows a structured approach to classify brain tumors from MRI images using deep learning models. The methodology involves key stages, including data acquisition, preprocessing, model selection, training, and evaluation. Below is a detailed explanation of the steps and underlying theories behind each chosen algorithm.</p>
+            
+            <h3>Theoretical Background</h3>
+            <div class="image-container">
+                <img src="Picture1.png" alt="Simple CNN Architecture">
+            </div>
+            
+            <h3>Convolutional Neural Networks (CNNs)</h3>
+            <p>Convolutional Neural Networks (CNNs) are deep learning models widely used for image classification, making them ideal for tasks like brain tumor detection. They automatically extract hierarchical spatial features from MRI images through layers of convolution, pooling, and fully connected layers.</p>
+            <ul>
+                <li><strong>Convolutional Layers</strong>: Use filters to detect patterns such as edges, textures, and complex shapes.</li>
+                <li><strong>ReLU Activation</strong>: Introduces non-linearity, improving learning efficiency and mitigating vanishing gradients.</li>
+                <li><strong>Pooling Layers</strong>: (e.g., max pooling) Reduce feature map dimensions while preserving key information, improving computational efficiency.</li>
+                <li><strong>Fully Connected Layers</strong>: Interpret extracted features and classify tumors into categories.</li>
+            </ul>
+
+            <div class="image-container">
+                <img src="Picture2.png" alt="Simple CNN Architecture">           
+                <p class="image-caption">Figure: Simple CNN Architecture</p> 
+            </div>
+            <p>CNNs serve as a strong baseline in this project, delivering robust results and forming the backbone of the hybrid CNN+SVM approach.</p>
+
+            <h3>VGG16</h3>
+            <p>VGG-16 is a deep convolutional neural network (CNN) developed by the Visual Geometry Group at the University of Oxford. It features 16 layers, including 13 convolutional and 3 fully connected layers. Known for its simplicity and strong performance, VGG-16 excels in image classification and object recognition tasks.</p>
+            <div class="image-container">
+                <img src="Picture5.png" alt="VGG16 Model Architecture">
+                <p class="image-caption">Figure: VGG16 Model Architecture</p>
+            </div>
+
+            <h3>ResNet50</h3>
+            <p>ResNet50 is a powerful image classification model that can be trained on large datasets and achieve state-of-the-art results. One of its key innovations is the use of residual connections, which allow the network to learn a set of residual functions that map the input to the desired output.</p>
+            <div class="image-container">
+                <img src="Picture3.png" alt="ResNet50 Model Architecture">
+                <p class="image-caption">Figure: ResNet50 Model Architecture</p>
+            </div>
+
+            <h3>InceptionV3</h3>
+            <p>Inception-v3 is a convolutional neural network architecture from the Inception family that makes several improvements including using Label Smoothing, Factorized 7 x 7 convolutions, and the use of an auxiliary classifier to propagate label information lower down the network (along with the use of batch normalization for layers in the side head)</p>
+            <div class="image-container">
+                <img src="Picture4.png" alt="InceptionV3 Model Architecture">
+                <p class="image-caption">Figure: InceptionV3 Model Architecture</p>
+            </div>
+
+            <h3>Support Vector Machine (SVM)</h3>
+            <p>A Support Vector Machine (SVM) is a discriminative classifier formally defined by a separating hyperplane. In other words, given labeled training data (supervised learning), the algorithm outputs an optimal hyperplane which categorizes new examples. In two dimensional space this hyperplane is a line dividing a plane in two parts where in each class lay on either side.</p>
+<p>The advantages of support vector machines are:</p>
+<ul>
+    <li>Effective in high dimensional spaces.</li>
+    <li>Still effective in cases where the number of dimensions is greater than the number of samples.</li>
+    <li>Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.</li>
+    <li>Different Kernel functions can be specified for the decision function so it is versatile.</li>
+</ul>
+<p>A SVM can have different types of kernels. The kernels signify the type of decision boundary that will be used for the classification tasks:</p>
+<div class="image-container">
+    <img src="Picture6.png" alt="SVM with Varying Kernels">
+    <p class="image-caption">Figure: SVM with Varying Kernels</p>
+</div>
+
+<h3>Vision Transformers (ViTs)</h3>
+<p>Vision Transformers (ViTs) are advanced deep learning models that apply self-attention mechanisms to vision tasks. Unlike CNNs, ViTs divide images into patches, treat them as sequential tokens, and learn both local and global features through multiple transformer layers.</p>
+<p>Each image patch is embedded and passed through a transformer encoder using components like multi-head self-attention, MLPs, and layer normalization. This architecture allows ViTs to model long-range dependencies and spatial relationships more effectively than CNNs.</p>
+<p>While ViTs offer strong performance, especially in medical imaging, they require more computational power. Recent models like RanMerFormer improve efficiency using token merging and random vector functional-link (RVFL) networks for better classification.</p>
+<p>ViTs are particularly suited for brain tumor detection due to their ability to understand complex image patterns at scale.</p>
+<div class="image-container">
+    <img src="Picture8.png" alt="Vision Transformer Architecture">
+    <p class="image-caption">Figure: Vision Transformer Architecture</p>
+</div>
+
+<h3>GradCAM</h3>
+<p>Gradient weighted Class Activation Map(Grad-CAM) is a method by which we can visualize the regions of an image which influenced the decision making process of a particular CNN model. The structure is shown below: </p>
+<div class="image-container">
+    <img src="Picture7.png" alt="GradCAM Structure">
+    <p class="image-caption">Figure: GradCAM Structure</p>
+</div>
+
+<p>In Grad-CAM, the spatial location information of the object is preserved which is lost in a fully connected layer. So the last convolution layer is used as its neurons identify parts specific to that class.</p>
+
+<h3>Data Sources & Preprocessing</h3>
+<p>The dataset used for training and evaluation includes publicly available MRI scans from the Brain Tumor Image Segmentation (BraTS) dataset, TCGA-GBM, and TCGA-LGG datasets. Preprocessing techniques such as normalization, data augmentation (rotation, flipping, contrast adjustments), and image resizing (224x224 for CNNs, 299x299 for InceptionV3) were applied to standardize and enhance image quality. Additionally, noise reduction methods like Gaussian filtering were employed to improve model robustness.</p>
+
+<h3>Model Architectures</h3>
+<p>The models used in this project include three CNN architectures: VGG16, ResNet50, and InceptionV3, each known for its performance in image classification tasks. VGG16 is a deep and simple architecture, ResNet50 utilizes residual connections to enhance learning in deep networks, and InceptionV3 improves performance through multi-size filters and auxiliary classifiers.</p>
+<p>For the Vision Transformer models, ViT-B/32 and FastViT were selected due to their ability to process global dependencies in images through self-attention mechanisms. These models provide an alternative to traditional CNNs, focusing on capturing spatial relationships across larger regions in the MRI scans.</p>
+
+<h3>Training Process</h3>
+<p>The training was conducted using Google Colab, equipped with NVIDIA A100 GPUs to accelerate computations. TensorFlow and PyTorch were used to implement the models, while optimizers such as Adam and AdamW were applied to fine-tune the pre-trained models. The dataset was split into training (80%), validation (10%), and test (10%) sets, with early stopping used to prevent overfitting during training. Hyperparameter tuning was performed using random search to find the optimal settings for model performance.</p>
+
+<h3>Evaluation & Performance Metrics</h3>
+<p>The models were evaluated using several metrics, including accuracy, precision, recall, F1-score, and Area Under the ROC Curve (AUC). These metrics provided insight into how well each model could classify the different tumor categories (Glioma, Meningioma, Pituitary Tumor, and No Tumor). A confusion matrix was also generated to visualize misclassifications and identify areas for improvement.</p>
+
+<h3>Grad-CAM & Model Interpretability</h3>
+<p>To improve the interpretability of the models, Grad-CAM was employed to create heatmaps that highlight the regions of MRI images most responsible for each model's predictions. This technique provides valuable insights into model behavior, making the results more understandable and trustworthy for medical practitioners.</p>
+
+<h3>Hybrid Models & Architectural Improvements</h3>
+<p>The project also explored hybrid models, combining CNN feature extraction with ViT's attention mechanisms, to improve classification performance. The deep feature extraction + SVM hybrid approach achieved the highest accuracy of 97%, outperforming both standalone CNN and ViT models in this task.</p>
+</section>
+
+<section id="results">
+    <div class="section-header">
+        <h2>Results Dashboard</h2>
+    </div>
+    
+    <h3>Weighted Average Scores for Pre-trained CNN Models</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Base CNN</th>
+                <th>ResNet50</th>
+                <th>InceptionV3</th>
+                <th>VGG16</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>0.95</td><td>0.93</td><td>0.94</td><td>0.95</td></tr>
+            <tr><td>Precision</td><td>0.95</td><td>0.93</td><td>0.94</td><td>0.96</td></tr>
+            <tr><td>Recall</td><td>0.95</td><td>0.93</td><td>0.94</td><td>0.96</td></tr>
+            <tr><td>F1 Score</td><td>0.95</td><td>0.93</td><td>0.94</td><td>0.96</td></tr>
+        </tbody>
+    </table>
+    
+    <h3>Class-wise Performance Comparison</h3>
+    
+    <h4>Class: No Tumor</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Base CNN</th>
+                <th>ResNet50</th>
+                <th>InceptionV3</th>
+                <th>VGG16</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>0.93</td><td>0.96</td><td>0.94</td><td>0.94</td></tr>
+            <tr><td>Precision</td><td>0.93</td><td>0.99</td><td>0.97</td><td>0.99</td></tr>
+            <tr><td>Recall</td><td>0.96</td><td>0.99</td><td>0.97</td><td>0.98</td></tr>
+            <tr><td>F1 Score</td><td>0.96</td><td>0.99</td><td>0.97</td><td>0.99</td></tr>
+        </tbody>
+    </table>
+    <div class="key-takeaway">
+        <strong>Key Takeaway:</strong> ResNet is the best model for detecting "No Tumor" cases, with near-perfect performance.
+    </div>
+    
+    <h4>Class: Glioma</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Base CNN</th>
+                <th>ResNet50</th>
+                <th>InceptionV3</th>
+                <th>VGG16</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>0.93</td><td>0.96</td><td>0.94</td><td>0.94</td></tr>
+            <tr><td>Precision</td><td>0.93</td><td>0.95</td><td>0.95</td><td>1.00</td></tr>
+            <tr><td>Recall</td><td>0.92</td><td>0.90</td><td>0.92</td><td>0.80</td></tr>
+            <tr><td>F1 Score</td><td>0.93</td><td>0.93</td><td>0.94</td><td>0.89</td></tr>
+        </tbody>
+    </table>
+    <div class="key-takeaway">
+        <strong>Key Takeaway:</strong> InceptionV3 is excellent at avoiding false positives but struggles with false negatives. ResNet and VGG16 provide a more balanced performance for Glioma detection.
+    </div>
+    
+    <h4>Class: Meningioma</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Base CNN</th>
+                <th>ResNet50</th>
+                <th>InceptionV3</th>
+                <th>VGG16</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>0.93</td><td>0.96</td><td>0.94</td><td>0.94</td></tr>
+            <tr><td>Precision</td><td>0.85</td><td>0.90</td><td>0.89</td><td>0.79</td></tr>
+            <tr><td>Recall</td><td>0.85</td><td>0.91</td><td>0.89</td><td>0.98</td></tr>
+            <tr><td>F1 Score</td><td>0.85</td><td>0.91</td><td>0.89</td><td>0.87</td></tr>
+        </tbody>
+    </table>
+    <div class="key-takeaway">
+        <strong>Key Takeaway:</strong> All models struggle with Meningioma. ResNet provides the best overall performance, while InceptionV3 sacrifices Precision for higher Recall.
+    </div>
+    
+    <h4>Class: Pituitary</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Base CNN</th>
+                <th>ResNet50</th>
+                <th>InceptionV3</th>
+                <th>VGG16</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>0.93</td><td>0.96</td><td>0.94</td><td>0.94</td></tr>
+            <tr><td>Precision</td><td>0.94</td><td>0.97</td><td>0.97</td><td>0.99</td></tr>
+            <tr><td>Recall</td><td>0.97</td><td>0.99</td><td>0.99</td><td>0.96</td></tr>
+            <tr><td>F1 Score</td><td>0.96</td><td>0.98</td><td>0.98</td><td>0.97</td></tr>
+        </tbody>
+    </table>
+    <div class="key-takeaway">
+        <strong>Key Takeaway:</strong> ResNet and VGG16 are the top performers for Pituitary tumor detection, with near-perfect metrics.
+    </div>
+    
+    <h3>Overall Model Analysis</h3>
+    <ul>
+        <li><strong>ResNet:</strong> Consistently performs well across all classes, achieving high Precision, Recall, and F1-Scores. Most balanced and reliable model.</li>
+        <li><strong>InceptionV3:</strong> Excels in Precision for some classes but struggles with Recall for others. Good at avoiding false positives, but may miss true cases.</li>
+        <li><strong>VGG16:</strong> Performs well, especially for Pituitary, but generally outperformed by ResNet.</li>
+        <li><strong>Base CNN:</strong> Least effective model with lower metrics across all classes. Simpler and lacks the complexity of other models.</li>
+    </ul>
+
+    <h3>GradCAM Visualization</h3>
+    <p>The left image represents the original MRI input, while the middle image uses a Grad-CAM heatmap to highlight critical areas contributing to the model's decision, with red and yellow indicating the most influential regions. The right image confirms the model's final prediction, verifying the presence of meningioma. This visualization enhances interpretability, ensuring accurate and reliable tumor detection. This enables us to look inside the black box of the CNN and gain an insight of what features influence the decisions most.</p>
+    
+    <div class="image-container">
+        <img src="Picture9.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture10.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture11.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture12.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture13.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture14.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture15.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture16.png" alt="GradCAM Visualization">
+    </div>
+    <div class="image-container">
+        <img src="Picture17.png" alt="GradCAM Visualization">
+    </div>
+    
+    <p>The Deep Feature + SVM hybrid model achieved 97% accuracy.</p>
+</section>
+
+<section id="insights">
+    <div class="section-header">
+        <h2>Insights & Discussion</h2>
+    </div>
+
+    <h3>Model Performance Overview</h3>
+    <p>
+        CNN models (VGG16, ResNet50, InceptionV3) performed well with <strong>No Tumor</strong> and <strong>Pituitary Tumor</strong> classifications but struggled with <strong>Glioma</strong> and <strong>Meningioma</strong> due to overlapping MRI features.
+        Vision Transformers (ViT-B/32, FastViT) captured global context well but needed larger datasets and more computational power to perform optimally.
+    </p>
+
+    <h3>Best Performing Model</h3>
+    <p>
+        The <strong>Deep Feature + SVM</strong> hybrid model achieved the highest accuracy (<strong>97%</strong>), combining CNN feature extraction with SVM classification.
+        While it required more processing time, it outperformed other models in terms of accuracy.
+    </p>
+
+    <h3>Common Misclassifications</h3>
+    <p>
+        The most common errors were between <strong>Glioma</strong> and <strong>Meningioma</strong>, as well as between <strong>No Tumor</strong> and benign tissue.
+        <strong>Pituitary Tumor</strong> cases near the sella turcica were also often misclassified.
+    </p>
+
+    <h3>Challenges Faced</h3>
+    <p>
+        Class imbalance affected model generalization, while overfitting was observed in deeper CNN models.
+        Vision Transformers underperformed due to limited data and high computational cost.
+    </p>
+
+    <h3>Key Takeaways</h3>
+    <p>
+        The <strong>Deep Feature + SVM</strong> approach proved most effective.
+        Future work should focus on expanding datasets, improving model efficiency, and utilizing Grad-CAM for better interpretability.
+    </p>
+</section>
+
+<section id="literature">
+    <div class="section-header">
+        <h2>Literature Review</h2>
+    </div>
+
+    <div class="literature-review">
+        <article class="paper">
+            <h3>1. Gómez-Guzmán et al. (2023)</h3>
+            <p><strong>Title:</strong> Classifying brain tumors on magnetic resonance imaging by using convolutional neural networks</p>
+            <p><strong>Summary:</strong> Demonstrated that standard CNN architectures can effectively classify brain tumors from MRI scans with high accuracy and minimal pre-processing.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.3390/electronics12040955" target="_blank">10.3390/electronics12040955</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>2. IEEE Xplore (2024)</h3>
+            <p><strong>Title:</strong> Benchmarking CNN and Cutting-Edge Transformer Models for Brain Tumor Classification Through Transfer Learning</p>
+            <p><strong>Summary:</strong> Provided a comparative study between CNNs and Vision Transformers, showing that CNNs perform better with limited data, while Transformers excel in capturing global context when data and compute are sufficient.</p>
+            <p><strong>Link:</strong> <a href="#" target="_blank">IEEE Xplore</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>3. Choudhury et al. (2020)</h3>
+            <p><strong>Title:</strong> Brain Tumor Detection and Classification Using Convolutional Neural Network and Deep Neural Network</p>
+            <p><strong>Summary:</strong> Proposed a CNN and DNN framework for brain tumor classification, highlighting CNNs' effectiveness even on smaller datasets.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1109/iccsea49143.2020.9132874" target="_blank">10.1109/iccsea49143.2020.9132874</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>4. Pacal et al. (2024)</h3>
+            <p><strong>Title:</strong> Enhancing EfficientNetv2 with Global and Efficient Channel Attention Mechanisms for Accurate MRI-Based Brain Tumor Classification</p>
+            <p><strong>Summary:</strong> Improved CNN classification performance by integrating attention mechanisms into the EfficientNetv2 architecture.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1007/s10586-024-04532-1" target="_blank">10.1007/s10586-024-04532-1</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>5. Nassar et al. (2023)</h3>
+            <p><strong>Title:</strong> A Robust MRI-Based Brain Tumor Classification via a Hybrid Deep Learning Technique</p>
+            <p><strong>Summary:</strong> Introduced a hybrid deep learning method combining CNN-based feature extraction with additional learning layers to improve classification robustness.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1007/s11227-023-05549-w" target="_blank">10.1007/s11227-023-05549-w</a></p>
+        </article>
+    </div>
+</section>
+
+<section id="future">
+    <div class="section-header">
+        <h2>Future Work</h2>
+    </div>
+    <div class="future-work">
+        <div class="work-block">
+            <h3>Model Enhancements</h3>
+            <p>
+                Future work includes fine-tuning pre-trained CNNs by unfreezing deeper layers for better MRI-specific feature extraction. A hybrid CNN + Transformer model is also planned to combine local and global feature learning, improving accuracy in classifying similar tumor types.
+            </p>
+        </div>
+
+        <div class="work-block">
+            <h3>Data Optimization</h3>
+            <p>
+                To boost generalization, advanced techniques like data augmentation, class balancing, and synthetic data generation (e.g., GANs) will be explored, along with weighted loss functions to handle underrepresented tumor classes.
+            </p>
+        </div>
+
+        <div class="work-block">
+            <h3>Clinical Integration</h3>
+            <p>
+                These models have strong potential for real-world use—providing real-time AI-assisted tumor classification in hospitals, reducing diagnostic time, and supporting early treatment. Cloud-based deployment could extend access to remote or underserved areas.
+            </p>
+        </div>
+
+        <div class="work-block">
+            <h3>Future Scope – Tumor Segmentation</h3>
+            <p>
+                The next phase will focus on tumor segmentation, enabling the models to not only classify but also outline tumor boundaries—supporting precise surgery, radiation therapy, and personalized treatment planning.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="ethics">
+    <div class="section-header">
+        <h2>Ethical Considerations</h2>
+    </div>
+    <div class="ethics-container">
+        <div class="ethics-block">
+            <h3>Data Privacy</h3>
+            <p>
+                Ensuring data privacy is crucial. All MRI scans and health data must be anonymized and processed in line with HIPAA and GDPR regulations to protect patient confidentiality.
+            </p>
+        </div>
+
+        <div class="ethics-block">
+            <h3>Model Bias & Generalization</h3>
+            <p>
+                To avoid bias, models will be trained on diverse datasets to ensure equitable performance across different demographics, minimizing any potential unfairness in predictions.
+            </p>
+        </div>
+
+        <div class="ethics-block">
+            <h3>Sustainability</h3>
+            <p>
+                Training large AI models consumes substantial energy. Future work will focus on optimizing model efficiency, reducing compute costs, and utilizing cloud services powered by renewable energy to lower the environmental impact.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="team">
+    <div class="section-header">
+        <h2>Team & Acknowledgments</h2>
+    </div>
+
+    <div class="team-container">
+        <div class="team-card">
+            <h3>Fabbiha Bushra</h3>
+            <p><strong>ID:</strong> 200021105</p>
+            <p>📧 <a href="mailto:fabbihabushra@iut-dhaka.edu">fabbihabushra@iut-dhaka.edu</a></p>
+            <p>🔗 <a href="https://github.com/Fabbiha-Bushra" target="_blank">GitHub Profile</a></p>
+        </div>
+
+        <div class="team-card">
+            <h3>Sanzida Tasnim Nisa</h3>
+            <p><strong>ID:</strong> 200021122</p>
+            <p>📧 <a href="mailto:sanzidatasnim@iut-dhaka.edu">sanzidatasnim@iut-dhaka.edu</a></p>
+        </div>
+
+        <div class="team-card">
+            <h3>Md. Shariar Hossain Sadi</h3>
+            <p><strong>ID:</strong> 200021134</p>
+            <p>📧 <a href="mailto:shariarhossain@iut-dhaka.edu">shariarhossain@iut-dhaka.edu</a></p>
+            <p>🔗 <a href="https://github.com/shariar-sadi" target="_blank">GitHub Profile</a></p>
+        </div>
+    </div>
+
+    <div class="acknowledgment">
+        <h3>🙏 Instructor Acknowledgment</h3>
+        <p>We extend our heartfelt gratitude to <strong>Md. Arefin Rabbi Emon</strong>, Lecturer at the Islamic University of Technology (IUT), for his invaluable guidance and support throughout this project.</p>
+    </div>
+
+    <div class="institution">
+        <h3>🏫 Institution</h3>
+        <p><strong>Islamic University of Technology (IUT)</strong> <br> Department of Electrical and Electronics Engineering</p>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-header">
+        <h2>Contact & Contribute</h2>
+    </div>
+    <p>We welcome collaboration and feedback. Get in touch via our contact form or explore our GitHub repository.</p>
+    <div class="contact-form">
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <textarea placeholder="Your Message" rows="5"></textarea>
+        <button>Submit</button>
+    </div>
+    <p style="text-align: center; margin-top: 1.5rem;">Explore the code: <a href="#">GitHub Repository</a></p>
+</section>
+</div>
+
+<div class="scroll-to-top" id="scrollTop">↑</div>
+
+<footer>
+    <p>&copy; 2025 AI-Powered Brain Tumor Classification Project. All rights reserved.</p>
+</footer>
+
+<script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+    });
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        const scrollTop = document.getElementById('scrollTop');
+        
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+            scrollTop.classList.add('visible');
+        } else {
+            navbar.classList.remove('scrolled');
+            scrollTop.classList.remove('visible');
+        }
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                navMenu.classList.remove('show');
+            }
+        });
+    });
+    
+    // Scroll to top button
+    document.getElementById('scrollTop').addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
+</body>
+</html>
