@@ -388,6 +388,68 @@
             border-radius: 0 8px 8px 0;
         }
 
+        .discussion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .discussion-block {
+            background-color: #eef6ff;
+            padding: 1.5rem 2rem;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .discussion-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .discussion-block h3 {
+            margin-bottom: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        .discussion-block p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .methodology-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .methodology-block {
+            background-color: #eef6ff;
+            padding: 1.5rem 2rem;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .methodology-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .methodology-block h3 {
+            margin-bottom: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        .methodology-block p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
         .literature-review {
             display: flex;
             flex-direction: column;
@@ -395,7 +457,7 @@
         }
 
         .paper {
-            background-color: var(--light-gray);
+            background-color: #eef6ff;
             padding: 1.5rem 2rem;
             border-left: 5px solid var(--secondary-color);
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -820,109 +882,133 @@
             <div class="section-header">
                 <h2>Methodology</h2>
             </div>
+
             <p>This project follows a structured approach to classify brain tumors from MRI images using deep learning models. The methodology involves key stages, including data acquisition, preprocessing, model selection, training, and evaluation. Below is a detailed explanation of the steps and underlying theories behind each chosen algorithm.</p>
+
+            <div class="methodology-container">
+                <div class="methodology-block">
             
-            <h3>Theoretical Background</h3>
-            <div class="image-container">
-                <img src="Picture1.png" alt="Simple CNN Architecture">
-            </div>
+                    <h3>Theoretical Background</h3>
+                    <div class="image-container">
+                        <img src="Picture1.png" alt="Simple CNN Architecture">
+                    </div>
             
-            <h3>Convolutional Neural Networks (CNNs)</h3>
-            <p>Convolutional Neural Networks (CNNs) are deep learning models widely used for image classification, making them ideal for tasks like brain tumor detection. They automatically extract hierarchical spatial features from MRI images through layers of convolution, pooling, and fully connected layers.</p>
-            <ul>
-                <li><strong>Convolutional Layers</strong>: Use filters to detect patterns such as edges, textures, and complex shapes.</li>
-                <li><strong>ReLU Activation</strong>: Introduces non-linearity, improving learning efficiency and mitigating vanishing gradients.</li>
-                <li><strong>Pooling Layers</strong>: (e.g., max pooling) Reduce feature map dimensions while preserving key information, improving computational efficiency.</li>
-                <li><strong>Fully Connected Layers</strong>: Interpret extracted features and classify tumors into categories.</li>
-            </ul>
+                    <h4 style="margin-top: 30px;">Convolutional Neural Networks (CNNs)</h4>
+                    <p>Convolutional Neural Networks (CNNs) are deep learning models widely used for image classification, making them ideal for tasks like brain tumor detection. They automatically extract hierarchical spatial features from MRI images through layers of convolution, pooling, and fully connected layers.</p>
+                    
+                    <ul style="margin-top: 20px; padding-left: 2em;">
+                        <li><strong>Convolutional Layers</strong>: Use filters to detect patterns such as edges, textures, and complex shapes.</li>
+                        <li><strong>ReLU Activation</strong>: Introduces non-linearity, improving learning efficiency and mitigating vanishing gradients.</li>
+                        <li><strong>Pooling Layers</strong>: (e.g., max pooling) Reduce feature map dimensions while preserving key information, improving computational efficiency.</li>
+                        <li><strong>Fully Connected Layers</strong>: Interpret extracted features and classify tumors into categories.</li>
+                    </ul>
 
-            <div class="image-container">
-                <img src="Picture2.png" alt="Simple CNN Architecture">           
-                <p class="image-caption">Figure: Simple CNN Architecture</p> 
+                    <div class="image-container">
+                        <img src="Picture2.png" width="800" height="300" alt="Simple CNN Architecture">           
+                        <p class="image-caption"><strong>Figure: Simple CNN Architecture</strong></p> 
+                    </div>
+                    <p>CNNs serve as a strong baseline in this project, delivering robust results and forming the backbone of the hybrid CNN+SVM approach.</p>
+
+                    <h4 style="margin-top: 30px;">VGG16</h4>
+                    <p>VGG-16 is a deep convolutional neural network (CNN) developed by the Visual Geometry Group at the University of Oxford. It features 16 layers, including 13 convolutional and 3 fully connected layers. Known for its simplicity and strong performance, VGG-16 excels in image classification and object recognition tasks.</p>
+                    <div class="image-container">
+                        <img src="Picture5.png" width="800" height="300" alt="VGG16 Model Architecture">
+                        <p class="image-caption"><strong>Figure: VGG16 Model Architecture</strong></p>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">ResNet50</h4>
+                    <p>ResNet50 is a powerful image classification model that can be trained on large datasets and achieve state-of-the-art results. One of its key innovations is the use of residual connections, which allow the network to learn a set of residual functions that map the input to the desired output.</p>
+                    <div class="image-container">
+                        <img src="Picture3.png" width="800" height="300" alt="ResNet50 Model Architecture">
+                        <p class="image-caption"><strong>Figure: ResNet50 Model Architecture</strong></p>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">InceptionV3</h4>
+                    <p>Inception-v3 is a convolutional neural network architecture from the Inception family that makes several improvements including using Label Smoothing, Factorized 7 x 7 convolutions, and the use of an auxiliary classifier to propagate label information lower down the network (along with the use of batch normalization for layers in the side head)</p>
+                    <div class="image-container">
+                        <img src="Picture4.png" width="800" height="300" alt="InceptionV3 Model Architecture">
+                        <p class="image-caption"><strong>Figure: InceptionV3 Model Architecture</strong></p>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">Support Vector Machine (SVM)</h4>
+                    <p>A Support Vector Machine (SVM) is a discriminative classifier formally defined by a separating hyperplane. In other words, given labeled training data (supervised learning), the algorithm outputs an optimal hyperplane which categorizes new examples. In two dimensional space this hyperplane is a line dividing a plane in two parts where in each class lay on either side.</p>
+                    <p style="margin-top: 20px;">The advantages of support vector machines are:</p>
+                    <ul style="margin-top: 20px; padding-left: 2em;">
+                        <li>Effective in high dimensional spaces.</li>
+                        <li>Still effective in cases where the number of dimensions is greater than the number of samples.</li>
+                        <li>Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.</li>
+                        <li>Different Kernel functions can be specified for the decision function so it is versatile.</li>
+                    </ul>
+                    <p style="margin-top: 20px;">A SVM can have different types of kernels. The kernels signify the type of decision boundary that will be used for the classification tasks:</p>
+                    <div class="image-container">
+                        <img src="Picture6.png" width="500" height="400" alt="SVM with Varying Kernels">
+                        <p class="image-caption"><strong>Figure: SVM with Varying Kernels</strong></p>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">Vision Transformers (ViTs)</h4>
+                    <p>Vision Transformers (ViTs) are advanced deep learning models that apply self-attention mechanisms to vision tasks. Unlike CNNs, ViTs divide images into patches, treat them as sequential tokens, and learn both local and global features through multiple transformer layers.</p>
+                    <p style="margin-top: 20px;">Each image patch is embedded and passed through a transformer encoder using components like multi-head self-attention, MLPs, and layer normalization. This architecture allows ViTs to model long-range dependencies and spatial relationships more effectively than CNNs.</p>
+                    <p style="margin-top: 20px;">While ViTs offer strong performance, especially in medical imaging, they require more computational power. Recent models like RanMerFormer improve efficiency using token merging and random vector functional-link (RVFL) networks for better classification.</p>
+                    <p style="margin-top: 20px;">ViTs are particularly suited for brain tumor detection due to their ability to understand complex image patterns at scale.</p>
+                    <div class="image-container">
+                        <img src="Picture8.png" width="600" height="300" alt="Vision Transformer Architecture">
+                        <p class="image-caption"><strong>Figure: Vision Transformer Architecture</strong></p>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">GradCAM</h4>
+                    <p>Gradient weighted Class Activation Map(Grad-CAM) is a method by which we can visualize the regions of an image which influenced the decision making process of a particular CNN model. The structure is shown below: </p>
+                    <div class="image-container">
+                        <img src="Picture7.png" width="800" height="400" alt="GradCAM Structure">
+                        <p class="image-caption"><strong>Figure: GradCAM Structure</strong></p>
+                    </div>
+
+                    <p>In Grad-CAM, the spatial location information of the object is preserved which is lost in a fully connected layer. So the last convolution layer is used as its neurons identify parts specific to that class.</p>
+
+                </div>
+
+                <div class="methodology-block">
+                    <h3>Data Sources & Preprocessing</h3>
+                    <p>The dataset used for training and evaluation includes publicly available MRI scans from the Brain Tumor Image Segmentation (BraTS) dataset, TCGA-GBM, and TCGA-LGG datasets. Preprocessing techniques such as normalization, data augmentation (rotation, flipping, contrast adjustments), and image resizing (224x224 for CNNs, 299x299 for InceptionV3) were applied to standardize and enhance image quality. Additionally, noise reduction methods like Gaussian filtering were employed to improve model robustness.</p>
+
+                </div>
+
+                <div class="methodology-block">
+                    <h3>Model Architectures</h3>
+                    <p>The models used in this project include three CNN architectures: VGG16, ResNet50, and InceptionV3, each known for its performance in image classification tasks. VGG16 is a deep and simple architecture, ResNet50 utilizes residual connections to enhance learning in deep networks, and InceptionV3 improves performance through multi-size filters and auxiliary classifiers.</p>
+                    <p>For the Vision Transformer models, ViT-B/32 and FastViT were selected due to their ability to process global dependencies in images through self-attention mechanisms. These models provide an alternative to traditional CNNs, focusing on capturing spatial relationships across larger regions in the MRI scans.</p>
+                </div>
+
+                <div class="methodology-block">
+                    <h3>Training Process</h3>
+                    <p>The training was conducted using Google Colab, equipped with NVIDIA A100 GPUs to accelerate computations. TensorFlow and PyTorch were used to implement the models, while optimizers such as Adam and AdamW were applied to fine-tune the pre-trained models. The dataset was split into training (80%), validation (10%), and test (10%) sets, with early stopping used to prevent overfitting during training. Hyperparameter tuning was performed using random search to find the optimal settings for model performance.</p>
+
+                </div>
+
+                <div class="methodology-block">                
+                    <h3>Evaluation & Performance Metrics</h3>
+                    <p>The models were evaluated using several metrics, including accuracy, precision, recall, F1-score, and Area Under the ROC Curve (AUC). These metrics provided insight into how well each model could classify the different tumor categories (Glioma, Meningioma, Pituitary Tumor, and No Tumor). A confusion matrix was also generated to visualize misclassifications and identify areas for improvement.</p>
+                </div>
+
+                <div class="methodology-block">
+                    <h3>Grad-CAM & Model Interpretability</h3>
+                    <p>To improve the interpretability of the models, Grad-CAM was employed to create heatmaps that highlight the regions of MRI images most responsible for each model's predictions. This technique provides valuable insights into model behavior, making the results more understandable and trustworthy for medical practitioners.</p>
+                </div>
+
+                <div class="methodology-block">
+                    <h3>Hybrid Models & Architectural Improvements</h3>
+                    <p>The project also explored hybrid models, combining CNN feature extraction with ViT's attention mechanisms, to improve classification performance. The deep feature extraction + SVM hybrid approach achieved the highest accuracy of 97%, outperforming both standalone CNN and ViT models in this task.</p>
+                </div>
+
             </div>
-            <p>CNNs serve as a strong baseline in this project, delivering robust results and forming the backbone of the hybrid CNN+SVM approach.</p>
 
-            <h3>VGG16</h3>
-            <p>VGG-16 is a deep convolutional neural network (CNN) developed by the Visual Geometry Group at the University of Oxford. It features 16 layers, including 13 convolutional and 3 fully connected layers. Known for its simplicity and strong performance, VGG-16 excels in image classification and object recognition tasks.</p>
-            <div class="image-container">
-                <img src="Picture5.png" alt="VGG16 Model Architecture">
-                <p class="image-caption">Figure: VGG16 Model Architecture</p>
-            </div>
-
-            <h3>ResNet50</h3>
-            <p>ResNet50 is a powerful image classification model that can be trained on large datasets and achieve state-of-the-art results. One of its key innovations is the use of residual connections, which allow the network to learn a set of residual functions that map the input to the desired output.</p>
-            <div class="image-container">
-                <img src="Picture3.png" alt="ResNet50 Model Architecture">
-                <p class="image-caption">Figure: ResNet50 Model Architecture</p>
-            </div>
-
-            <h3>InceptionV3</h3>
-            <p>Inception-v3 is a convolutional neural network architecture from the Inception family that makes several improvements including using Label Smoothing, Factorized 7 x 7 convolutions, and the use of an auxiliary classifier to propagate label information lower down the network (along with the use of batch normalization for layers in the side head)</p>
-            <div class="image-container">
-                <img src="Picture4.png" alt="InceptionV3 Model Architecture">
-                <p class="image-caption">Figure: InceptionV3 Model Architecture</p>
-            </div>
-
-            <h3>Support Vector Machine (SVM)</h3>
-            <p>A Support Vector Machine (SVM) is a discriminative classifier formally defined by a separating hyperplane. In other words, given labeled training data (supervised learning), the algorithm outputs an optimal hyperplane which categorizes new examples. In two dimensional space this hyperplane is a line dividing a plane in two parts where in each class lay on either side.</p>
-<p>The advantages of support vector machines are:</p>
-<ul>
-    <li>Effective in high dimensional spaces.</li>
-    <li>Still effective in cases where the number of dimensions is greater than the number of samples.</li>
-    <li>Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.</li>
-    <li>Different Kernel functions can be specified for the decision function so it is versatile.</li>
-</ul>
-<p>A SVM can have different types of kernels. The kernels signify the type of decision boundary that will be used for the classification tasks:</p>
-<div class="image-container">
-    <img src="Picture6.png" alt="SVM with Varying Kernels">
-    <p class="image-caption">Figure: SVM with Varying Kernels</p>
-</div>
-
-<h3>Vision Transformers (ViTs)</h3>
-<p>Vision Transformers (ViTs) are advanced deep learning models that apply self-attention mechanisms to vision tasks. Unlike CNNs, ViTs divide images into patches, treat them as sequential tokens, and learn both local and global features through multiple transformer layers.</p>
-<p>Each image patch is embedded and passed through a transformer encoder using components like multi-head self-attention, MLPs, and layer normalization. This architecture allows ViTs to model long-range dependencies and spatial relationships more effectively than CNNs.</p>
-<p>While ViTs offer strong performance, especially in medical imaging, they require more computational power. Recent models like RanMerFormer improve efficiency using token merging and random vector functional-link (RVFL) networks for better classification.</p>
-<p>ViTs are particularly suited for brain tumor detection due to their ability to understand complex image patterns at scale.</p>
-<div class="image-container">
-    <img src="Picture8.png" alt="Vision Transformer Architecture">
-    <p class="image-caption">Figure: Vision Transformer Architecture</p>
-</div>
-
-<h3>GradCAM</h3>
-<p>Gradient weighted Class Activation Map(Grad-CAM) is a method by which we can visualize the regions of an image which influenced the decision making process of a particular CNN model. The structure is shown below: </p>
-<div class="image-container">
-    <img src="Picture7.png" alt="GradCAM Structure">
-    <p class="image-caption">Figure: GradCAM Structure</p>
-</div>
-
-<p>In Grad-CAM, the spatial location information of the object is preserved which is lost in a fully connected layer. So the last convolution layer is used as its neurons identify parts specific to that class.</p>
-
-<h3>Data Sources & Preprocessing</h3>
-<p>The dataset used for training and evaluation includes publicly available MRI scans from the Brain Tumor Image Segmentation (BraTS) dataset, TCGA-GBM, and TCGA-LGG datasets. Preprocessing techniques such as normalization, data augmentation (rotation, flipping, contrast adjustments), and image resizing (224x224 for CNNs, 299x299 for InceptionV3) were applied to standardize and enhance image quality. Additionally, noise reduction methods like Gaussian filtering were employed to improve model robustness.</p>
-
-<h3>Model Architectures</h3>
-<p>The models used in this project include three CNN architectures: VGG16, ResNet50, and InceptionV3, each known for its performance in image classification tasks. VGG16 is a deep and simple architecture, ResNet50 utilizes residual connections to enhance learning in deep networks, and InceptionV3 improves performance through multi-size filters and auxiliary classifiers.</p>
-<p>For the Vision Transformer models, ViT-B/32 and FastViT were selected due to their ability to process global dependencies in images through self-attention mechanisms. These models provide an alternative to traditional CNNs, focusing on capturing spatial relationships across larger regions in the MRI scans.</p>
-
-<h3>Training Process</h3>
-<p>The training was conducted using Google Colab, equipped with NVIDIA A100 GPUs to accelerate computations. TensorFlow and PyTorch were used to implement the models, while optimizers such as Adam and AdamW were applied to fine-tune the pre-trained models. The dataset was split into training (80%), validation (10%), and test (10%) sets, with early stopping used to prevent overfitting during training. Hyperparameter tuning was performed using random search to find the optimal settings for model performance.</p>
-
-<h3>Evaluation & Performance Metrics</h3>
-<p>The models were evaluated using several metrics, including accuracy, precision, recall, F1-score, and Area Under the ROC Curve (AUC). These metrics provided insight into how well each model could classify the different tumor categories (Glioma, Meningioma, Pituitary Tumor, and No Tumor). A confusion matrix was also generated to visualize misclassifications and identify areas for improvement.</p>
-
-<h3>Grad-CAM & Model Interpretability</h3>
-<p>To improve the interpretability of the models, Grad-CAM was employed to create heatmaps that highlight the regions of MRI images most responsible for each model's predictions. This technique provides valuable insights into model behavior, making the results more understandable and trustworthy for medical practitioners.</p>
-
-<h3>Hybrid Models & Architectural Improvements</h3>
-<p>The project also explored hybrid models, combining CNN feature extraction with ViT's attention mechanisms, to improve classification performance. The deep feature extraction + SVM hybrid approach achieved the highest accuracy of 97%, outperforming both standalone CNN and ViT models in this task.</p>
-</section>
+        </section>
 
 <section id="results">
     <div class="section-header">
         <h2>Results Dashboard</h2>
     </div>
     
-    <h3>Weighted Average Scores for Pre-trained CNN Models</h3>
+    <h3 style = "margin-bottom: 30px;">Weighted Average Scores for Pre-trained CNN Models</h3>
     <table>
         <thead>
             <tr>
@@ -941,9 +1027,9 @@
         </tbody>
     </table>
     
-    <h3>Class-wise Performance Comparison</h3>
+    <h3 style = "margin-top: 50px; margin-bottom: 20px;">Class-wise Performance Comparison</h3>
     
-    <h4>Class: No Tumor</h4>
+    <h4 style = "margin-top: 30px; margin-bottom: 30px;">Class: No Tumor</h4>
     <table>
         <thead>
             <tr>
@@ -965,7 +1051,7 @@
         <strong>Key Takeaway:</strong> ResNet is the best model for detecting "No Tumor" cases, with near-perfect performance.
     </div>
     
-    <h4>Class: Glioma</h4>
+    <h4 style = " margin-bottom: 30px;">Class: Glioma</h4>
     <table>
         <thead>
             <tr>
@@ -987,7 +1073,7 @@
         <strong>Key Takeaway:</strong> InceptionV3 is excellent at avoiding false positives but struggles with false negatives. ResNet and VGG16 provide a more balanced performance for Glioma detection.
     </div>
     
-    <h4>Class: Meningioma</h4>
+    <h4 style = " margin-bottom: 30px;">Class: Meningioma</h4>
     <table>
         <thead>
             <tr>
@@ -1009,7 +1095,7 @@
         <strong>Key Takeaway:</strong> All models struggle with Meningioma. ResNet provides the best overall performance, while InceptionV3 sacrifices Precision for higher Recall.
     </div>
     
-    <h4>Class: Pituitary</h4>
+    <h4 style = " margin-bottom: 30px;">Class: Pituitary</h4>
     <table>
         <thead>
             <tr>
@@ -1031,15 +1117,15 @@
         <strong>Key Takeaway:</strong> ResNet and VGG16 are the top performers for Pituitary tumor detection, with near-perfect metrics.
     </div>
     
-    <h3>Overall Model Analysis</h3>
-    <ul>
+    <h3 style = "margin-top: 50px;">Overall Model Analysis</h3>
+    <ul style= "padding-left: 2em;">
         <li><strong>ResNet:</strong> Consistently performs well across all classes, achieving high Precision, Recall, and F1-Scores. Most balanced and reliable model.</li>
         <li><strong>InceptionV3:</strong> Excels in Precision for some classes but struggles with Recall for others. Good at avoiding false positives, but may miss true cases.</li>
         <li><strong>VGG16:</strong> Performs well, especially for Pituitary, but generally outperformed by ResNet.</li>
         <li><strong>Base CNN:</strong> Least effective model with lower metrics across all classes. Simpler and lacks the complexity of other models.</li>
     </ul>
 
-    <h3>GradCAM Visualization</h3>
+    <h3 style = "margin-top: 50px;">GradCAM Visualization</h3>
     <p>The left image represents the original MRI input, while the middle image uses a Grad-CAM heatmap to highlight critical areas contributing to the model's decision, with red and yellow indicating the most influential regions. The right image confirms the model's final prediction, verifying the presence of meningioma. This visualization enhances interpretability, ensuring accurate and reliable tumor detection. This enables us to look inside the black box of the CNN and gain an insight of what features influence the decisions most.</p>
     
     <div class="image-container">
@@ -1078,35 +1164,47 @@
         <h2>Insights & Discussion</h2>
     </div>
 
-    <h3>Model Performance Overview</h3>
-    <p>
-        CNN models (VGG16, ResNet50, InceptionV3) performed well with <strong>No Tumor</strong> and <strong>Pituitary Tumor</strong> classifications but struggled with <strong>Glioma</strong> and <strong>Meningioma</strong> due to overlapping MRI features.
-        Vision Transformers (ViT-B/32, FastViT) captured global context well but needed larger datasets and more computational power to perform optimally.
-    </p>
+    <div class = "discussion-container">
+        <div class="discussion-block">
+            <h3>Model Performance Overview</h3>
+            <p>
+                CNN models (VGG16, ResNet50, InceptionV3) performed well with No Tumor and Pituitary Tumor classifications but struggled with Glioma and Meningioma due to overlapping MRI features.
+                Vision Transformers (ViT-B/32, FastViT) captured global context well but needed larger datasets and more computational power to perform optimally.
+            </p>
+        </div>
+        
+        <div class="discussion-block">
+            <h3>Best Performing Model</h3>
+            <p>
+                The Deep Feature + SVM hybrid model achieved the highest accuracy (97%), combining CNN feature extraction with SVM classification.
+                While it required more processing time, it outperformed other models in terms of accuracy.
+            </p>
+        </div>
+        
+        <div class="discussion-block">
+            <h3>Common Misclassifications</h3>
+            <p>
+                The most common errors were between Glioma and Meningioma, as well as between No Tumor and benign tissue.
+                Pituitary Tumor cases near the sella turcica were also often misclassified.
+            </p>
+        </div>
 
-    <h3>Best Performing Model</h3>
-    <p>
-        The <strong>Deep Feature + SVM</strong> hybrid model achieved the highest accuracy (<strong>97%</strong>), combining CNN feature extraction with SVM classification.
-        While it required more processing time, it outperformed other models in terms of accuracy.
-    </p>
-
-    <h3>Common Misclassifications</h3>
-    <p>
-        The most common errors were between <strong>Glioma</strong> and <strong>Meningioma</strong>, as well as between <strong>No Tumor</strong> and benign tissue.
-        <strong>Pituitary Tumor</strong> cases near the sella turcica were also often misclassified.
-    </p>
-
-    <h3>Challenges Faced</h3>
-    <p>
-        Class imbalance affected model generalization, while overfitting was observed in deeper CNN models.
-        Vision Transformers underperformed due to limited data and high computational cost.
-    </p>
-
-    <h3>Key Takeaways</h3>
-    <p>
-        The <strong>Deep Feature + SVM</strong> approach proved most effective.
-        Future work should focus on expanding datasets, improving model efficiency, and utilizing Grad-CAM for better interpretability.
-    </p>
+        <div class="discussion-block">
+            <h3>Challenges Faced</h3>
+            <p>
+                Class imbalance affected model generalization, while overfitting was observed in deeper CNN models.
+                Vision Transformers underperformed due to limited data and high computational cost.
+            </p>
+        </div>
+        
+        <div class="discussion-block">
+            <h3>Key Takeaways</h3>
+            <p>
+                The Deep Feature + SVM approach proved most effective.
+                Future work should focus on expanding datasets, improving model efficiency, and utilizing Grad-CAM for better interpretability.
+            </p>
+        </div>
+    </div>
 </section>
 
 <section id="literature">
@@ -1149,6 +1247,35 @@
             <p><strong>Summary:</strong> Introduced a hybrid deep learning method combining CNN-based feature extraction with additional learning layers to improve classification robustness.</p>
             <p><strong>DOI:</strong> <a href="https://doi.org/10.1007/s11227-023-05549-w" target="_blank">10.1007/s11227-023-05549-w</a></p>
         </article>
+
+        <article class="paper">
+            <h3>6. Ayadi et al. (2021)</h3>
+            <p><strong>Title:</strong> Deep CNN for Brain Tumor Classification</p>
+            <p><strong>Summary:</strong> Used a deep CNN for high-accuracy classification of brain tumors in MRI scans, affirming the strength of convolution-based architectures.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1007/s11063-020-10398-2" target="_blank">10.1007/s11063-020-10398-2</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>7. Reddy et al. (2024)</h3>
+            <p><strong>Title:</strong> A Fine-Tuned Vision Transformer Based Enhanced Multi-Class Brain Tumor Classification Using MRI Scan Imagery</p>
+            <p><strong>Summary:</strong> Developed a ViT-based model fine-tuned for multiclass tumor classification, achieving competitive accuracy compared to CNNs.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.3389/fonc.2024.1400341" target="_blank">10.3389/fonc.2024.1400341</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>8. Wang et al. (2024)</h3>
+            <p><strong>Title:</strong> RanMerFormer: Randomized Vision Transformer with Token Merging for Brain Tumor Classification</p>
+            <p><strong>Summary:</strong>  Proposed an efficient transformer architecture (RanMerFormer) that reduces computation via token merging while maintaining classification performance.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.1016/j.neucom.2023.127216" target="_blank">10.1016/j.neucom.2023.127216</a></p>
+        </article>
+
+        <article class="paper">
+            <h3>9. Krishnan et al. (2024)</h3>
+            <p><strong>Title:</strong> Enhancing Brain Tumor Detection in MRI with a Rotation Invariant Vision Transformer</p>
+            <p><strong>Summary:</strong> Introduced a ViT model that improves robustness to orientation changes in MRI scans by implementing rotation-invariance.</p>
+            <p><strong>DOI:</strong> <a href="https://doi.org/10.3389/fninf.2024.1414925" target="_blank">10.3389/fninf.2024.1414925</a></p>
+        </article>
+
     </div>
 </section>
 
@@ -1232,6 +1359,7 @@
             <h3>Sanzida Tasnim Nisa</h3>
             <p><strong>ID:</strong> 200021122</p>
             <p>📧 <a href="mailto:sanzidatasnim@iut-dhaka.edu">sanzidatasnim@iut-dhaka.edu</a></p>
+            <p>🔗 <a href="https://github.com/SanzidaTasnim122" target="_blank">GitHub Profile</a></p>
         </div>
 
         <div class="team-card">
@@ -1243,7 +1371,7 @@
     </div>
 
     <div class="acknowledgment">
-        <h3>🙏 Instructor Acknowledgment</h3>
+        <h3>🧑‍🏫 Instructor Acknowledgment</h3>
         <p>We extend our heartfelt gratitude to <strong>Md. Arefin Rabbi Emon</strong>, Lecturer at the Islamic University of Technology (IUT), for his invaluable guidance and support throughout this project.</p>
     </div>
 
